@@ -19,6 +19,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         etName = (EditText) findViewById(R.id.etName);
+        Toast.makeText(getApplicationContext(), "onCreate", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText(getApplicationContext(), "onStart", Toast.LENGTH_LONG).show();
     }
 
     public void OpenActivity(View view) {
