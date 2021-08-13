@@ -63,4 +63,14 @@ public class DBManager {
         Cursor cursor = sqLiteQueryBuilder.query(sqlDB, projection, selection, selectionArgs, null, null, sortOrder);
         return cursor;
     }
+
+    public int Update(ContentValues values, String selection, String[] selectionArgs) {
+        int count = sqlDB.update(TableName, values, selection, selectionArgs);
+        return count;
+    }
+
+    public int Delete(String selection, String[] selectionArgs) {
+        int count = sqlDB.delete(TableName, selection, selectionArgs);
+        return count;
+    }
 }

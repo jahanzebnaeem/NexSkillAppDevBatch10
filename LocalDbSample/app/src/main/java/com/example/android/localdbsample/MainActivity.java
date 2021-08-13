@@ -52,9 +52,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buUpdate(View view) {
+        ContentValues values = new ContentValues();
+        values.put(DBManager.ColUserName, etUserName.getText().toString());
+        values.put(DBManager.ColPassWord, etPassword.getText().toString());
+        values.put(DBManager.ColID, recordId);
+
+        String[] selectionArgs = {String.valueOf(recordId)};
+
+        dbManager.Update(values, "ID = ?", selectionArgs);
     }
 
     public void buLoad(View view) {
+        LoadElement();
+    }
+
+    void LoadElement() {
         ListView lvStudents = (ListView) findViewById(R.id.lvStudents);
 
         listnewsData.clear();
@@ -123,6 +135,28 @@ public class MainActivity extends AppCompatActivity {
 
             TextView tvPassword = (TextView) myView.findViewById(R.id.tvPassword);
             tvPassword.setText(s.Password);
+
+            Button btnUpdate = (Button) myView.findViewById(R.id.btnUpdate);
+            btnUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    etUserName.setText(s.UserName);
+                    etPassword.setText(s.Password);
+                    recordId = s.ID;
+                }
+            });
+
+            Button btnDelete = (Button) myView.findViewById(R.id.btnDelete);
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String[] selectionArgs = {String.valueOf(s.ID)};
+                    int count = dbManager.Delete("ID=?", selectionArgs);
+                    if (count>0) {
+                        LoadElement();
+                    }
+                }
+            });
 
             return myView;
         }
