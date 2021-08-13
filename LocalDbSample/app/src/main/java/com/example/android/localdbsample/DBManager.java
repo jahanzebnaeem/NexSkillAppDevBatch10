@@ -1,8 +1,11 @@
 package com.example.android.localdbsample;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.widget.Toast;
 
 public class DBManager {
@@ -44,5 +47,20 @@ public class DBManager {
     public DBManager(Context context) {
         DatabaseHelperUser db = new DatabaseHelperUser(context);
         sqlDB = db.getWritableDatabase();
+    }
+
+    public long Insert(ContentValues values) {
+        long ID = sqlDB.insert(TableName, "", values);
+        // could insert id is user id, or fail id is equal 0
+        return ID;
+    }
+
+    // select username, password from logins where ID = 1
+    public Cursor query(String[] projection, String selection, String[] selectionArgs, String sortOrder){
+        SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
+        sqLiteQueryBuilder.setTables(TableName);
+
+        Cursor cursor = sqLiteQueryBuilder.query(sqlDB, projection, selection, selectionArgs, null, null, sortOrder);
+        return cursor;
     }
 }
